@@ -1,7 +1,15 @@
-# Boiler Flask
-
-Simple boiler plate for Flask test/sample apps. It has nothin but a wrapper for running a hello world Flask app.
-
+## How to install virtualenv
+	pip install virtualenv
+## How to make the env by virtualenv in project.
+	cd {project_folder}
+	virtualenv env
+## How to activate the env
+	# case of Linux
+	source env/bin/activate
+	# case of windows
+	env/scripts/activate
+## How to install packages
+	pip install -r requirements.txt
 ## Run server
 
 	python manage.py run
