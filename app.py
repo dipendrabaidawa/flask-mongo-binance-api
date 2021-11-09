@@ -6,6 +6,10 @@ import config
 import os
 import decimal
 from urllib.request import urlopen 
+import pandas as pd
+import openpyxl
+from openpyxl_image_loader import SheetImageLoader
+import base64
 
 # Flask modules
 from flask import render_template, json
@@ -44,34 +48,47 @@ def query():
     # get option values from request
     opts = request.form
     
-    # run the query engine
-    """
-        print(opts) 
-        # outputs: ImmutableMultiDict([('Cm', 'fn_1'), ('Nd', 'cm_1'), ('Srp', 'nd_1'), ('IT', 'srp_1'), ('DRS', 'it_1'), ('Pd', 'drs_1'), ('SRQ', 'pd_1')])
-        
-        Please make the filter_dict with opts variable.
-        You can get each option value from there.
-        ex: 'Fn' : opts['Fn'], 'Cm' : opts['Cm']
-        
-        filter_dict = {
-
-        'Fn': str(input("Enter a value for Fn: ")),
-
-        'std': str(input("Enter a value for std: ")),
-
-        ......
-
-        }
-
-        filter_sr ={
-        'Quarter': str(input("Enter a value for Quarter: "))
-        }
-
-        sr = filter_sr['Quarter'].replace(' to ', '<= Quarter <=')
-        query = ' & '.join([f'{k} == "{v}"' for k,v in filter_dict.items() if v!=""])
-
-        df.query(query)
-    """
-    df = (1, 2, 3, 4, 5, 6, 7, 8)
+    # run the query engine 
+    # you will get the result - excel file with its name and store in {project folder}/excel_files/{file_name}.excel
+    # to get the image, you will put the following values:
+    # n_images: number of images
+    # postions[]: array of images' positions - e.g: positions('A1', 'I1' ..... )
     
-    return render_template("index.html", option_names=option_names, option_values=option_values, df=df)
+    excel_file_name = "orinak.xlsx"
+    
+    n_images = 2
+    positions = ('A1', 'I1')
+    
+    #loading the Excel File and the sheet
+    pxl_doc = openpyxl.load_workbook(basedir + f"/excel_files/{excel_file_name}")
+    
+    summary_sheet = pxl_doc['Summary']
+    
+    idx = 1
+    stored_images = []
+
+    for position in positions:
+        # calling the image_loader
+        image_loader = SheetImageLoader(summary_sheet)
+        
+        # get the image (put the cell you need instead of 'A1')
+        image = image_loader.get(position)
+        
+        # showing the image
+        # image.show()
+        
+        # saving images in static/images
+        image.save(basedir+f"/static/images/{excel_file_name}-{idx}.png")
+        
+        stored_images.append(f"{excel_file_name}-{idx}.png")
+        idx += 1
+
+    sheets = ['A', 'B', 'C', 'E', 'F', 'G']
+    sheets_data = []
+    
+    for sheet in sheets:    
+        df = pd.read_excel (basedir + f"/excel_files/{excel_file_name}", sheet_name=sheet)
+        sheets_data.append({'sheet_name': sheet, 'data': df.to_dict()})
+    
+    return render_template("index.html", option_names=option_names, option_values=option_values, \
+        plots=stored_images, sheets_data=sheets_data)
