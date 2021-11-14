@@ -9,111 +9,41 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <style>
-        .params {
-            padding: 5px;
-            margin-left: 5px;
-        }
-        .logo-img {
-            width: 100px;
-            margin-top: 10px;
-        }
-        .project-name {
-          padding-left: 30px;
-          padding-top: 30px;
-        }
-        .params_panel {
-          background-color: rgb(53, 223, 223);
-          padding: 10px;
-        }
-    </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row">
-          <div class="col-3 logo">
-            <img class="logo-img img-responsive" src="/static/logo.png" alt="Responsive image">
-          </div>
-          <div class="col-9 project-name">
-            <h1>Project Name</h1>
-          </div>
+            Input Fields:
         </div>
-        <form action="/query" method="post">
-
-          <div class="row params_panel">
-            {% for option in option_values %}
-            <div class="col params">
-              <select class="form-select" aria-label="Default select example" name="{{option_names[loop.index]}}">
-              {% for value in option %}
-                  <option value="{{value}}">{{value}}</option>
-              {% endfor %}
-              </select>
-            </div>
-            {% endfor %}
-          </div>
-          <div class="row params_panel align-self-end">
-            <div class="col offset-md-11">
-              <button id="send_query" class="btn btn-primary" type="submit">Submit</button>
-            </div>
-          </div>
-        </form>
-
-        <hr>
-
         <div class="row">
-          <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active" id="summary_plots-tab" data-bs-toggle="tab" data-bs-target="#summary_plots" type="button" role="tab" aria-controls="summary_plots" aria-selected="true">summary_plots</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="w1-tab" data-bs-toggle="tab" data-bs-target="#w1" type="button" role="tab" aria-controls="w1" aria-selected="false">w1</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="w2-tab" data-bs-toggle="tab" data-bs-target="#w2" type="button" role="tab" aria-controls="w2" aria-selected="false">w2</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="w3-tab" data-bs-toggle="tab" data-bs-target="#w3" type="button" role="tab" aria-controls="w3" aria-selected="false">w3</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="w4-tab" data-bs-toggle="tab" data-bs-target="#w4" type="button" role="tab" aria-controls="w4" aria-selected="false">w4</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="w5-tab" data-bs-toggle="tab" data-bs-target="#w5" type="button" role="tab" aria-controls="w5" aria-selected="false">w5</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="w6-tab" data-bs-toggle="tab" data-bs-target="#w6" type="button" role="tab" aria-controls="w6" aria-selected="false">w6</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link" id="w7-tab" data-bs-toggle="tab" data-bs-target="#w7" type="button" role="tab" aria-controls="w7" aria-selected="false">w7</button>
-            </li>
-          </ul>
-          <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="summary_plots" role="tabpanel" aria-labelledby="summary_plots-tab">
-              {% for plot in plots %}
-              <img src="/static/images/{{plot}}" alt="">
-              {% endfor %}
-            </div>
-            {% for a_sheet_data in sheets_data %}
-              <div class="tab-pane fade table-responsive" id="w{{loop.index}}" role="tabpanel" aria-labelledby="w{{loop.index}}-tab">
-                <table class="table mb-0 table-hover table-borderless border-0">
-                  <thead>
-                    {% for key in a_sheet_data.data.keys() %}
-                    <th>{{key}}</th>
-                    {% endfor %}
-                  </thead>
-                  <tbody>
-                    {% for row_idx in range(a_sheet_data.data['ID']|count) %}
-                    <tr>
-                      {% for key in a_sheet_data.data.keys() %}
-                        <td>{{a_sheet_data.data[key][row_idx]}}</td>
-                      {% endfor %}
-                    </tr>
-                    {% endfor %}
-                  </tbody>
+            <div class="col-6">
+                <h2>Sell Trades</h2>
+                <table class="table">
+                    <thead>
+                        <tr>ID</tr>
+                        <tr>PRICE</tr>
+                        <tr>QTY</tr>
+                        <tr>QUOTE QTY</tr>
+                        <tr>Time</tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
                 </table>
-              </div>
-            {% endfor %}
-          </div>
+            </div>
+            <div class="col-6">
+                <h2>Buy Trades</h2>
+                <table>
+                    <thead>
+                        <tr>ID</tr>
+                        <tr>PRICE</tr>
+                        <tr>QTY</tr>
+                        <tr>QUOTE QTY</tr>
+                        <tr>Time</tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>
