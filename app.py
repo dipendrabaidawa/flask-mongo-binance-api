@@ -26,13 +26,13 @@ app.config.update(
     DEBUG=config.DEBUG,
     SECRET_KEY=config.SECRET_KEY,
     MONGO_URI=config.MONGO_URI)
-mongo = PyMongo(app)
-db = mongo.db
+# mongo = PyMongo(app)
+# db = mongo.db
 
 # display index page
 @app.route('/')
 def index():
-    historyCollection = db.tradehistory
+    # historyCollection = db.tradehistory
     # data = get_historical_trades("BTCUSDT", 3, "333")
     # data.set_index("id", inplace=True)
     # symbol = "BTCUSDT"
@@ -40,7 +40,7 @@ def index():
     # fromId = "333"
     # historyCollection.insert({"symbol": symbol, "limit": limit, "fromId": fromId, "data": data.to_dict('records')})
 
-    sell_result = historyCollection.find_one({"symbol": "BTCUSDT"})
-    print(sell_result)
+    # sell_result = historyCollection.find_one({"symbol": "BTCUSDT"})
+    # print(sell_result)
 
     return render_template("index.html")
