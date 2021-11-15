@@ -12,3 +12,7 @@ def get_historical_trades(symbol, limit, fromId):
     df = pd.DataFrame(trades)
     
     return df
+
+def get_all_symbols():
+    symbols = client.get_exchange_info()
+    return symbols
