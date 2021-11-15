@@ -1,18 +1,13 @@
 # Python modules
 
-from flask import Flask, jsonify
-from flask.globals import request
-import config
 import os
-import decimal
-from urllib.request import urlopen 
-import pandas as pd
-import openpyxl
-from openpyxl_image_loader import SheetImageLoader
+import config
+# Flask modules
+from flask import Flask
+from flask.globals import request
+from flask import render_template
 from flask_pymongo import PyMongo
 
-# Flask modules
-from flask import render_template, json
 # Api modules
 from api import *
 
