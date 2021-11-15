@@ -1,6 +1,6 @@
 ## Did you install git client on your machine?
 ## How to clone the repository
-	git clone https://github.com/dipendrabaidawa/flask-app4Mushengh.git
+	git clone <repository>
 ## How to install virtualenv
 	pip install virtualenv
 ## How to make the env by virtualenv in project.
