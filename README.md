@@ -23,3 +23,4 @@ You can also specify `port` and `host` as a commandline params while running the
 
 	python manage.py run --host 0.0.0.0 --port 9000
 ![ScreenShot](https://raw.githubusercontent.com/app-generator/flask-mongo-binance-api/main/static/Capture.PNG?raw=true "Demo")
+![screenshot](https://github.com/dipendrabaidawa/flask-mongo-binance-api/main/static/Capture.PNG?raw=true)
