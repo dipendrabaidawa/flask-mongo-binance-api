@@ -22,4 +22,4 @@ Bydefault Flask dev server run on host `127.0.0.1` (`localhost`) and port `5000`
 You can also specify `port` and `host` as a commandline params while running the dev server.
 
 	python manage.py run --host 0.0.0.0 --port 9000
-![Alt text](static/Capture.PNG?raw=true "Demo")
+![ScreenShot](./static/Capture.PNG?raw=true "Demo")
