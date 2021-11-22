@@ -61,28 +61,45 @@ def index():
         if exist_max_trade_id < row['id']:
             exist_max_trade_id = row['id']
         
-        if row['isBuyerMaker'] == True:
-            sell_history.append(row)
-        else:
-            buy_history.append(row)
+        # if row['isBuyerMaker'] == True:
+        #     sell_history.append(row)
+        # else:
+        #     buy_history.append(row)
     
     # in case which no exists in database, from exist_max_trade_id, fetching data from binance server
     
     if exist_max_trade_id < fromId + limit -1:
         not_enough_number = fromId + limit - exist_max_trade_id
         fromId_to_fetch = exist_max_trade_id + 1
-        
-        data = get_historical_trades(symbol, not_enough_number, fromId_to_fetch)
-        data.index = [x for x in data.id]
-        data = data.assign(symbol = symbol)
-        historyCollection.insert(data.to_dict("records"))
+        for y in range(int(not_enough_number/1000)+2):
+            data = get_historical_trades(symbol, 1000, fromId_to_fetch+y*1000)
+            data.index = [x for x in data.id]
+            data = data.assign(symbol = symbol)
+            historyCollection.insert(data.to_dict("records"))
 
         # append new fetched data to sell_history and buy_history dic
-        for row in data.to_dict('records'):
-            if row['isBuyerMaker'] == True:
-                sell_history.append(row)
-            else:
-                buy_history.append(row)
-    
+        # for row in data.to_dict('records'):
+        #     if row['isBuyerMaker'] == True:
+        #         sell_history.append(row)
+        #     else:
+        #         buy_history.append(row)
+    result = historyCollection.find({
+        "$query": {
+            "$and" : [
+                {"id": {"$gte": fromId}},
+                {"symbol": {"$eq": symbol}}
+            ]
+        },
+        "$orderby": {
+            "id": 1
+        }
+    }).limit(limit)
+
+    for row in result:
+        if row['isBuyerMaker'] == True:
+            sell_history.append(row)
+        else:
+            buy_history.append(row)
+
     return render_template("index.html", \
-        sell_history=sell_history, buy_history=buy_history)
+        sell_history=sell_history[-500:], buy_history=buy_history[-500:])
